@@ -1,0 +1,37 @@
+#!/bin/bash
+CONFIG=c64xAccurate.ccxml
+
+trap 'echo Control-C trap caught; exit 1' 2 #traps Ctrl-C (signal 2)
+
+verbose=0
+if [ "$1" = "-v" ]; then
+  verbose=1
+fi
+
+for f in `ls Reference/*.reference | sort`; do
+  fn=`basename $f`
+  outfile=Output/${fn%%.reference}.out
+  if [ -e "$outfile" ]; then
+	expected=`awk 'BEGIN{ RS="retval = ";} { gsub(/[^0-9].*/,"",$1); if ($1 != ""){ print $1; } }' $f`
+    if [ -z $expected ]; then
+		expected='UNDEFINED'
+	fi
+    ./retcatch.sh -c $CONFIG $outfile &> .out
+	rc=`awk 'BEGIN{ RS="retval = ";} { gsub(/[^0-9].*/,"",$1); if ($1 != ""){ print $1; } }' .out`
+    if [ $rc = $expected ]; then
+      echo -e " OK     $outfile"
+    else
+      echo
+      echo -e " FAIL   $outfile"
+      echo    "        - expected: ($expected)"
+      echo    "        - returned: ($rc)"
+      echo
+      if [ "$verbose" = "1" ]; then
+        cat .out
+      fi
+    fi
+    rm -f .out
+  else
+    echo "not found: $outfile"
+  fi
+done
