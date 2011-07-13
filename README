@@ -1,0 +1,18 @@
+SINGLEPASS
+A regression test suite for the TMS320C64X code generator in LLVM.
+
+
+How to use it:
+Adapt the tool paths in user.mk to your setup first.
+
+# build all tests and generate reference results
+make
+
+# run all tests
+./batchrun
+
+# remove the built tests
+make clean
+
+# remove the reference results as well
+make very-clean
