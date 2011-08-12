@@ -1,0 +1,5 @@
+# note: user.mk cannot be ignored since it's being tracked. instead use:
+# git update-index --assume-unchanged user.mk
+Output/
+Profile/
+Reference/

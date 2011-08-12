@@ -1,4 +1,21 @@
-include user.mk
+# tool paths (mostly no defaults). override in user.mk
+# paths to the llvm tools
+CLANGPATH=/foo/bin
+OPTPATH=/foo/bin
+LLCPATH=/foo/bin
+
+# program to compile and link TI (cl6x)
+TICC=/foo/bin/cl6x
+
+# include and lib path to the system library for TI
+SYSINCLUDEPATH=/foo/include
+SYSLIBPATH=/foo/lib
+
+# loadti tool that runs the simulator from the command line
+LOADTI=/foo/loadti.sh
+
+# simulator config (currently comes with singlepass)
+CONFIG=./c64xAccurate.ccxml
 
 CLANGOPTS=-ccc-host-triple tms320c64x-unknown-gnu-linux -S -emit-llvm -o - \
 		 -DSTART_PROFILING="asm(\"bench_begin:\")" \
@@ -22,6 +39,9 @@ TICCOPTS= ${TICCASMOPTS} \
 LDOPTS=-mv64+ \
 	   --warn_sections -i"${SYSINCLUDEPATH}" \
 	   -i"${SYSLIBPATH}" --reread_libs --rom_model
+
+# environment/user specific overrides go in here
+include user.mk
 
 define clang-cmd
 ${CLANGPATH}/clang ${CLANGOPTS} $< | ${OPTPATH}/opt ${OPTOPTS} -S -o $@
