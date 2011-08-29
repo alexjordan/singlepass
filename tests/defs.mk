@@ -48,7 +48,7 @@ ${CLANGPATH}/clang ${CLANGOPTS} $< | ${OPTPATH}/opt ${OPTOPTS} -S -o $@
 endef
 
 define as-cmd
-${CLANGPATH}/llvm-as $< -o $@
+${LLCPATH}/llvm-as $< -o $@
 endef
 
 define llc-cmd
