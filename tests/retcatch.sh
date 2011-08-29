@@ -1,6 +1,13 @@
 #! /bin/sh
-RUNJS=/nfstmp/epicopt/opt/ccsv5/ccs_base_5.0.0.00053/scripting/bin/dss.sh
-CONFIG=/nfstmp/epicopt/opt/ccsv5/TargetConf/c64xAccurate.ccxml
 
-export UTIL_PATH=$(dirname $(which $0))
-$RUNJS $UTIL_PATH/retcatch.js -c $CONFIG $@
+# RUNJS defined in user configuration
+source user.mk
+
+if [ -e $RUNJS ]; then
+	export UTIL_PATH=$(dirname $(which $0))
+	$RUNJS $UTIL_PATH/retcatch.js $@
+else
+	echo \'$RUNJS\' not found.
+	echo Did you define RUNJS in user.mk?
+	exit 1
+fi
