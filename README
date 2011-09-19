@@ -3,7 +3,8 @@ A regression test suite for the TMS320C64X code generator in LLVM.
 
 
 How to use it:
-Adapt the tool paths in user.mk to your setup first.
+First, copy user.mk.example to user.mk and adapt the tool paths according to
+your environment.
 
 # build all tests and generate reference results
 make

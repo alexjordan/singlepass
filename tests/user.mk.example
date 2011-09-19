@@ -1,0 +1,7 @@
+# This file (user.mk) is used to override variables from defs.mk. (don't commit it)
+# For example:
+LLCPATH=/localtmp/ajordan/srobo/llvm-tic6x/Debug/bin
+
+
+# this variable is required by retcatch.sh
+RUNJS=/insert/path/to/ccs_base_5.0.0.00053/scripting/bin/dss.sh
