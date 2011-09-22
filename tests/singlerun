@@ -1,7 +1,12 @@
 #!/bin/bash
+
 CONFIG=c64xAccurate.ccxml
+source common.inc.sh
+
 
 trap 'echo Control-C trap caught; exit 1' 2 #traps Ctrl-C (signal 2)
+
+initlog
 
 for outfile in `echo $* | sed 's/ /\n/g' | sort`; do
   fn=`basename $outfile`
@@ -11,23 +16,7 @@ for outfile in `echo $* | sed 's/ /\n/g' | sort`; do
     if [ -z $expected ]; then
 		expected='UNDEFINED'
 	fi
-    ./retcatch.sh -c $CONFIG $outfile &> .out
-	if [ $? -eq 0 ]; then
-	  rc=`awk 'BEGIN{ RS="retval = ";} { gsub(/[^0-9].*/,"",$1); if ($1 != ""){ print $1; } }' .out`
-      if [ $rc = $expected ]; then
-        echo -e " OK     $outfile"
-      else
-        echo
-        echo -e " FAIL   $outfile"
-        echo    "        - expected: ($expected)"
-        echo    "        - returned: ($rc)"
-        echo
-      fi
-	else
-      echo ERROR: retcatch.sh failed with:
-	  cat .out
-	fi
-    rm -f .out
+	runtest $outfile $expected
   else
     echo "not found: $outfile"
   fi
