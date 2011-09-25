@@ -8,7 +8,7 @@ int main(int argc, char **argv) {
   int destVal;
 
   int *sourcePtr = &sourceVal;
-  int *destPtr;
+  int *destPtr = &destVal;
 
   // try both variants, since this requires two
   // different strategies for llvm-IR lowering
