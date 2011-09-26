@@ -46,7 +46,7 @@ Output/%.s: Output/%.bc
 	$(llc-cmd)
 
 Output/%.asm: Output/%.s
-	echo -e ${ASMHEAD} | cat - $< > $@
+	${GREP} $< > $@
 
 Output/%.obj: Output/%.asm
 	$(ticc-asm-cmd)

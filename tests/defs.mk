@@ -26,12 +26,10 @@ CLANGOPTS=-ccc-host-triple tms320c64x-unknown-gnu-linux -S -emit-llvm -o - \
 OPTOPTS=-mem2reg
 LLCOPTS=-march=tms320c64x
 
-GREP=grep -v "\.\(file\|type\)"
-ASMHEAD="\t.compiler_opts --abi=coffabi --c64p_l1d_workaround=default --endian=little --hll_source=on --silicon_version=6500"
-
-AWKRET=awk 'BEGIN{ RS="retval = ";} { gsub(/[^0-9].*/,"",$$1); if ($$1 != ""){ print $$1; } }'
-
-TICCASMOPTS=-mv64+ -as -k --symdebug:none
+# ABI switching (needs to reflect ABI in LLC)
+#TIABIOPTS=--abi=coffabi
+TIABIOPTS=--abi=eabi --long_precision_bits=32
+TICCASMOPTS=-mv64+ -as -k --symdebug:none ${TIABIOPTS}
 TICCOPTS= ${TICCASMOPTS} \
 	   -i"${SYSLIBPATH}" \
 	   -i"${SYSINCLUDEPATH}"
@@ -39,6 +37,10 @@ TICCOPTS= ${TICCASMOPTS} \
 LDOPTS=-mv64+ \
 	   --warn_sections -i"${SYSINCLUDEPATH}" \
 	   -i"${SYSLIBPATH}" --reread_libs --rom_model
+
+GREP=grep -v "\.\(file\|type\)"
+
+AWKRET=awk 'BEGIN{ RS="retval = ";} { gsub(/[^0-9].*/,"",$$1); if ($$1 != ""){ print $$1; } }'
 
 # environment/user specific overrides go in here
 include user.mk
