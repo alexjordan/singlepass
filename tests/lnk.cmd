@@ -19,10 +19,11 @@
 /*                                                                          */
 /****************************************************************************/
 -c
--heap  0x2000
+-heap  0x800000 /* 8M heap */
 -stack 0x6000
 
 /* Memory Map 1 - the default */
+/* Note: 16M BMEM to accomodate heap */
 MEMORY
 {
         PMEM:   o = 00000020h   l = 0000ffe0h 
@@ -30,7 +31,7 @@ MEMORY
         EXT1:   o = 01400000h   l = 00400000h
         EXT2:   o = 02000000h   l = 01000000h
         EXT3:   o = 03000000h   l = 01000000h
-        BMEM:   o = 80000000h   l = 00010000h 
+        BMEM:   o = 80000000h   l = 01000000h
 } 
 
 /* Memory Map 0 */
