@@ -46,7 +46,11 @@ AWKRET=awk 'BEGIN{ RS="retval = ";} { gsub(/[^0-9].*/,"",$$1); if ($$1 != ""){ p
 include user.mk
 
 define clang-cmd
-${CLANGPATH}/clang ${CLANGOPTS} $< | ${OPTPATH}/opt ${OPTOPTS} -S -o $@
+${CLANGPATH}/clang ${CLANGOPTS} -S -o $@ $<
+endef
+
+define opt-cmd
+${OPTPATH}/opt ${OPTOPTS} -S -o $@ $<
 endef
 
 define as-cmd

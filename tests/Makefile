@@ -7,7 +7,7 @@ thefiles := $(cfiles:.c=.out) $(llfiles:.ll=.out)
 outfiles := $(thefiles:%.out=Output/%.out)
 tifiles := $(thefiles:%.out=Reference/%.reference)
 
-.PRECIOUS: Output/%.bc Output/%.ll Output/%.asm
+.PRECIOUS: Output/%.bc Output/%.ll Output/%.llopt Output/%.asm
 #sgccfiles := $(cfiles:.c=.s-gcc)
 #sllvmfiles := $(cfiles:.c=.s-llvm)
 
@@ -36,10 +36,13 @@ Reference/%.reference: %.reference
 Output/%.ll: %.c Output/.dir
 	$(clang-cmd)
 
+Output/%.llopt: Output/%.ll
+	$(opt-cmd)
+
 Output/%.bc: %.ll Output/.dir
 	$(as-cmd)
 
-Output/%.bc: Output/%.ll
+Output/%.bc: Output/%.llopt
 	$(as-cmd)
 
 Output/%.s: Output/%.bc
