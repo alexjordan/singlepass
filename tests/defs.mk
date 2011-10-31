@@ -17,7 +17,7 @@ LOADTI=/foo/loadti.sh
 # simulator config (currently comes with singlepass)
 CONFIG=./c64xAccurate.ccxml
 
-CLANGOPTS=-ccc-host-triple tms320c64x-unknown-gnu-linux -S -emit-llvm -o - \
+CLANGOPTS=-ccc-host-triple tms320c64x-unknown-gnu-linux -S -emit-llvm \
 		 -DSTART_PROFILING="asm(\"bench_begin:\")" \
 		 -DEND_PROFILING="asm(\"bench_end:\")" \
 		 -Dnear= -Dfar= \
